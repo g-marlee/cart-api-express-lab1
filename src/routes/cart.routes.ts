@@ -8,10 +8,30 @@ export const cartRouter = express.Router();
 cartRouter.get('/', (req, res) => {
     if (req.query.maxPrice) {
         const maxPrice = Number(req.query.maxPrice);
-        console.log(maxPrice);
+        if (req.query.prefix && !req.query.pageSize) {
+            const prefix = String(req.query.prefix);
+            const newCart = cart.filter(item => item.product.startsWith(prefix));
+            res.json(newCart.filter(item => item.price <= maxPrice));
+        } else if (req.query.pageSize && !req.query.prefix) {
+            const pageSize = Number(req.query.pageSize);
+            const newCart = cart.filter(item => item.price <= maxPrice);
+            res.json(newCart.slice(0, pageSize));
+        } else if (req.query.prefix && req.query.pageSize) {
+            const prefix = String(req.query.prefix);
+            const pageSize = Number(req.query.pageSize);
+
+            const newCart = cart.filter(item => item.product.startsWith(prefix));
+            const newerCart = newCart.filter(item => item.price <= maxPrice);
+            res.json(newerCart.slice(0, pageSize));
+        }
         res.json(cart.filter(item => item.price <= maxPrice));
     } else if (req.query.prefix) {
         const prefix = String(req.query.prefix);
+        if (req.query.pageSize && ! req.query.maxPrice) {
+            const pageSize = Number(req.query.pageSize);
+            const newCart = cart.filter(item => item.product.startsWith(prefix));
+            res.json(newCart.slice(0, pageSize));
+        }
         res.json(cart.filter(item => item.product.startsWith(prefix)));
     } else if (req.query.pageSize) {
         const pageSize = Number(req.query.pageSize);
