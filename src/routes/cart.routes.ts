@@ -35,3 +35,14 @@ cartRouter.post('/', (req, res) => {
     res.sendStatus(201);
     res.json(newItem);
 });
+
+cartRouter.put('/:id', (req, res) => {
+    const item = cart.find(items => items.id === req.params.id);
+    const itemIndex = cart.findIndex(items => items.id === req.params.id);
+
+    const updatedItem = {...item, ...req.body};
+
+    cart.splice(itemIndex, 1, updatedItem);
+
+    res.json(updatedItem);
+});
