@@ -14,7 +14,7 @@ app.use(cors());
 // allow POST and PUT requests to use JSON bodies
 app.use(express.json());
 
-app.use("/cart", cartRouter);
+app.use("/cart-items", cartRouter);
  
 // define the port
 const port = 3000;
