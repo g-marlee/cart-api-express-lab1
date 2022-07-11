@@ -28,3 +28,10 @@ cartRouter.get('/:id', (req, res) => {
         res.status(404).send(`ID Not Found`);
     };
 });
+
+cartRouter.post('/', (req, res) => {
+    const newItem: Item = {id: uuidv4(), ...req.body};
+    cart.push(newItem);
+    res.sendStatus(201);
+    res.json(newItem);
+});
