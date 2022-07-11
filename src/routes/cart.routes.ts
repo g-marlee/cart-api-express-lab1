@@ -46,3 +46,12 @@ cartRouter.put('/:id', (req, res) => {
 
     res.json(updatedItem);
 });
+
+cartRouter.delete('/:id', (req, res) => {
+    const item = cart.find(items => items.id === req.params.id);
+    const itemIndex = cart.findIndex(items => items.id === req.params.id);
+
+    cart.splice(itemIndex, 1);
+
+    res.sendStatus(204);
+});
