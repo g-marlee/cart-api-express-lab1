@@ -19,3 +19,12 @@ cartRouter.get('/', (req, res) => {
     }
     res.json(cart);
 });
+
+cartRouter.get('/:id', (req, res) => {
+    const item = cart.find(items => items.id === req.params.id);
+    if (item) {
+        res.json(item);
+    } else {
+        res.status(404).send(`ID Not Found`);
+    };
+});
